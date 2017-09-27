@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Session Words</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'session_words/css/style.css' %}" media="screen" title="no title"  charset="utf-8">        
+    </head>
+    <body>
+        <h3>Add a new word, yo!</h3>
+        {% if messages %}
+        <ul class="message">
+            {% for message in messages %}
+            <li class="message">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form class="wordz" action='/add' method='post'>
+            {% csrf_token %}
+            <p><input type='text' name='word'></p>
+            <p>Choose a color: </p>
+                <input type="radio" name="color" value="blue" checked> Blue
+                <input type="radio" name="color" value="green"> Green
+                <input type="radio" name="color" value="orange"> Orange
+                <input type="checkbox" name="big" value="big" id="big"><label for="big"> show in BIG fonts!</label>
+            <input type='submit' value='Add to session'>
+        </form>
+        <hr>
+        <form action='/clear' method='post'>
+            {% csrf_token %}                    
+            <input type='submit' value='Clear'>
+        </form>
+        {{request.session.word|safe}}
+    </body>
+</html>
